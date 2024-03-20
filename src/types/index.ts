@@ -39,3 +39,13 @@ export interface Trainee {
   Active: boolean;
   ActiveSince: Date;
 }
+
+export interface MenuItems {
+  label: string;
+  icon: string;
+  to: string;
+}
+
+export interface Menus {
+  [key: string]: MenuItems[];
+}
