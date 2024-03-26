@@ -1,11 +1,15 @@
 import { createRouter, createWebHistory } from "vue-router";
-import { useAuthStore } from "../stores/auth";
 import Login from "../views/Login.vue";
 import Home from "../views/Home.vue";
+import Dashboard from "../views/Dashboard.vue";
+import Trainees from "../views/Trainees.vue";
+import { useAppUserStore } from "../stores/user.store";
 
 const routes = [
   { path: "/home", component: Home },
   { path: "/auth/login", component: Login },
+  { path: "/dashboard", component: Dashboard },
+  { path: "/trainees", component: Trainees, name: "Trainees" },
 ];
 
 const router = createRouter({
@@ -14,10 +18,9 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  const authStore = useAuthStore();
+  const appUserStore = useAppUserStore();
 
-  console.log(authStore);
-  if (to.path !== "/auth/login" && !authStore.loginData) {
+  if (to.path !== "/auth/login" && !appUserStore.appUser) {
     next("/auth/login");
   } else {
     next();

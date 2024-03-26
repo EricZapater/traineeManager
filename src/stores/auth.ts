@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
+import { useAppUserStore } from "./user.store";
 import { Login } from "../types";
 import api from "../utils/axios";
-import router from "../router";
 
 export const useAuthStore = defineStore("auth", {
   state: () => ({
@@ -14,19 +14,18 @@ export const useAuthStore = defineStore("auth", {
     }: {
       username: string;
       password: string;
-    }): Promise<void> {
+    }): Promise<any> {
       try {
-        const response = await api.post<{ loginData: Login }>("/auth/login", {
+        const response = await api.post("/auth/login", {
           username,
           password,
         });
-        if (response.status === 200) {
-          console.log(response.data);
-          this.loginData = response.data.loginData;
-          router.push("/home");
-        }
+        const appUserStore = useAppUserStore();
+        appUserStore.setAppUser(response.data.data);
+        return response;
       } catch (error) {
         console.log("Error a l'iniciar sessió: ", error);
+        throw new Error("Wrong login: " + error);
       }
     },
   },

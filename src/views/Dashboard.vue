@@ -1,7 +1,6 @@
 <template>
-  <div>
-    <h2>Logged in</h2>
-    <p></p>
+  <div class="dashboard-page">
+    <h1>dashboard</h1>
   </div>
 </template>
 <script setup lang="ts"></script>

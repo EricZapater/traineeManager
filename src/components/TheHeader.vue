@@ -2,28 +2,34 @@
   <header class="app-header">
     <h1 class="app-name">trainee Manager</h1>
     <span class="loginInfo"
-      >{{ authStore.loginData ? authStore.loginData.Username : "Login" }}
-      <i class="pi pi-power-off" v-if="authStore.loginData" @click="logout"></i>
+      >{{ appUserStore.appUser ? appUserStore.appUser.Username : "" }}
+      <i
+        class="pi pi-power-off"
+        v-if="appUserStore.appUser?.Username"
+        @click="logout"
+      ></i>
     </span>
   </header>
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted } from "vue";
+import { defineComponent } from "vue";
 import { useAuthStore } from "../stores/auth";
+import { useAppUserStore } from "../stores/user.store";
 import router from "../router";
 
 export default defineComponent({
   name: "TheHeader",
   setup() {
     const authStore = useAuthStore();
-
+    const appUserStore = useAppUserStore();
     const logout = async () => {
-      authStore.loginData = null;
+      appUserStore.appUser = undefined;
       router.push("/login");
     };
 
     return {
+      appUserStore,
       authStore,
       logout,
     };

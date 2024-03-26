@@ -20,6 +20,7 @@ export interface Login {
   Password: string;
 }
 
+//afegir la forma de pagament, la periodicitat i l'últim pagament fet
 export interface Trainee {
   ID: string;
   CreatedOn: Date;
@@ -43,7 +44,8 @@ export interface Trainee {
 export interface MenuItems {
   label: string;
   icon: string;
-  to: string;
+  to?: string;
+  command?: () => void;
 }
 
 export interface Menus {

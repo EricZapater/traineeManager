@@ -12,6 +12,9 @@ export const useAppUserStore = defineStore({
   }),
   getters: {},
   actions: {
+    setAppUser(appUser: AppUser) {
+      this.appUser = appUser;
+    },
     async fetchAppUserByLogin(login: Login) {
       this.appUser = await service.GetAppUserByLogin(login);
     },

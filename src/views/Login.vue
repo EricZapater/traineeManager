@@ -1,14 +1,10 @@
 <template>
   <div class="login-container">
     <h1>Login</h1>
-    <form @submit.prevent="handleSubmit" class="login-form">
+    <form class="login-form">
       <div class="form-control">
         <label for="username">Username:</label>
-        <InputText
-          id="username"
-          v-model="username"
-          placeholder="Enter your username"
-        />
+        <InputText id="username" v-model="username" placeholder="Usuari" />
       </div>
       <div class="form-control">
         <label for="password">Password:</label>
@@ -16,26 +12,46 @@
         <!--<InputText id="password" v-model="password" placeholder="Enter your password" :type="showPassword ? 'text' : 'password'" />
         <i class="pi" :class="showPassword ? 'pi-eye-slash' : 'pi-eye'" @click="toggleShowPassword"></i>-->
       </div>
-      <Button label="Log In">Log In</Button>
+      <Button label="Log In" @click.prevent="login">Log In</Button>
     </form>
   </div>
 </template>
 <script setup lang="ts">
 import { ref } from "vue";
 import { useAuthStore } from "../stores/auth";
+import router from "../router";
+import { useToast } from "primevue/usetoast";
 
 const username = ref("");
 const password = ref("");
 const authStore = useAuthStore();
+const toast = useToast();
 
-const handleSubmit = async () => {
+const login = async () => {
   try {
-    await authStore.login({
+    var response = await authStore.login({
       username: username.value,
       password: password.value,
     });
+    if (response.status === 200) {
+      console.log("si");
+      router.push("/home");
+    } else {
+      console.log("no");
+      toast.add({
+        severity: "error",
+        summary: "Usuari o password incorrecte",
+        life: 5000,
+      });
+    }
+    console.log(response);
   } catch (error) {
-    console.log("Error en el login");
+    toast.add({
+      severity: "error",
+      summary: "Login error",
+      detail: "wrong username or password",
+      life: 3000,
+    });
   }
 };
 </script>
@@ -49,7 +65,6 @@ const handleSubmit = async () => {
 }
 
 .login-form {
-  width: 100%;
   max-width: 400px;
   padding: 20px;
   border: 1px solid #ccc;
