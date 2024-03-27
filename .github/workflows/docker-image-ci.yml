@@ -10,20 +10,20 @@ jobs:
   docker:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out repository
-        uses: actions/checkout@v2
+      #- name: Check out repository
+      #  uses: actions/checkout@v2
 
-      - name: Set up Node.js
-          uses: actions/setup-node@v2
-          with:
-            node-version: '18.12.1' # o la versión que uses
+      #- name: Set up Node.js
+      #    uses: actions/setup-node@v2
+      #    with:
+      #      node-version: '18.12.1' # o la versión que uses
 
-      - name: Install dependencies
-        run: npm install
+      #- name: Install dependencies
+      #  run: npm install
 
-      - name: Build the Vue app
-        run: npm run build
-        
+      #- name: Build the Vue app
+      #  run: npm run build
+
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
       - name: Set up Docker Buildx
