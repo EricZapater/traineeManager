@@ -1,6 +1,9 @@
 import { createApp } from "vue";
 import "primevue/resources/primevue.min.css";
 import "primevue/resources/themes/aura-light-green/theme.css";
+import "primeicons/primeicons.css";
+import "primeflex/primeflex.css";
+
 import App from "./App.vue";
 import { createPinia } from "pinia";
 import PrimeVue from "primevue/config";
@@ -17,8 +20,10 @@ import Column from "primevue/column";
 import ColumnGroup from "primevue/columngroup"; // optional
 import Row from "primevue/row"; // optional
 import Dialog from "primevue/dialog";
-import "primeicons/primeicons.css";
-import "primeflex/primeflex.css";
+import Calendar from "primevue/calendar";
+import Textarea from "primevue/textarea";
+import TabView from "primevue/tabview";
+import TabPanel from "primevue/tabpanel";
 
 const pinia = createPinia();
 const app = createApp(App);
@@ -40,5 +45,9 @@ app.component("Column", Column);
 app.component("Row", Row);
 app.component("ColumnGroup", ColumnGroup);
 app.component("Dialog", Dialog);
+app.component("Calendar", Calendar);
+app.component("Textarea", Textarea);
+app.component("TabView", TabView);
+app.component("TabPanel", TabPanel);
 
 app.mount("#app");

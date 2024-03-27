@@ -1,4 +1,4 @@
-:root {
+/*:root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
@@ -76,4 +76,30 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+}*/
+
+.three-columns {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.four-columns {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+
+.five-columns {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1rem;
+}
+.input-container {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem; /* Espacio entre campos del formulario */
+}
+.pi {
+  cursor: pointer;
 }
