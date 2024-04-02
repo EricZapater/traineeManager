@@ -34,10 +34,8 @@ const login = async () => {
       password: password.value,
     });
     if (response.status === 200) {
-      console.log("si");
       router.push("/home");
     } else {
-      console.log("no");
       toast.add({
         severity: "error",
         summary: "Usuari o password incorrecte",
