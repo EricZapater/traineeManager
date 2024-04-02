@@ -96,8 +96,4 @@ button {
   color: white;*/
   cursor: pointer;
 }
-
-button:hover {
-  /*background-color: #0056b3;*/
-}
 </style>
