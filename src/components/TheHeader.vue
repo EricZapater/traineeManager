@@ -2,10 +2,10 @@
   <header class="app-header">
     <h1 class="app-name">trainee Manager</h1>
     <span class="loginInfo"
-      >{{ appUserStore.appUser ? appUserStore.appUser.Username : "" }}
+      >{{ appUserStore.loginUser ? appUserStore.loginUser.Username : "" }}
       <i
         class="pi pi-power-off"
-        v-if="appUserStore.appUser?.Username"
+        v-if="appUserStore.loginUser?.Username"
         @click="logout"
       ></i>
     </span>
@@ -24,7 +24,8 @@ export default defineComponent({
     const authStore = useAuthStore();
     const appUserStore = useAppUserStore();
     const logout = async () => {
-      appUserStore.appUser = undefined;
+      //appUserStore.loginUser = undefined;
+      appUserStore.clearLoginState();
       router.push("/login");
     };
 

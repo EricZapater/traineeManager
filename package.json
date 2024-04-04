@@ -1,7 +1,7 @@
 {
   "name": "traineemanager",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.1.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -15,10 +15,12 @@
     "primeicons": "^6.0.1",
     "primevue": "^3.49.1",
     "toast": "^0.5.4",
+    "uuid": "^9.0.1",
     "vue": "^3.4.19",
     "vue-router": "^4.3.0"
   },
   "devDependencies": {
+    "@types/uuid": "^9.0.8",
     "@vitejs/plugin-vue": "^5.0.4",
     "typescript": "^5.2.2",
     "vite": "^5.1.4",

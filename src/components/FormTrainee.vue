@@ -46,7 +46,18 @@
         </div>
       </section>
     </TabPanel>
-    <TabPanel header="User Data"> </TabPanel>
+    <TabPanel header="User Data" v-if="appUser">
+      <section class="three-columns">
+        <div class="input-container">
+          <label>User Name</label>
+          <InputText id="username" v-model="appUser.Username" />
+        </div>
+        <div class="input-container">
+          <label>Password</label>
+          <InputText id="password" v-model="appUser.Password" />
+        </div>
+      </section>
+    </TabPanel>
   </TabView>
   <div class="flex justify-content-end gap-2">
     <Button
@@ -62,6 +73,7 @@
 import { Trainee } from "../types";
 import { useTraineeStore } from "../stores/trainee.store";
 import { storeToRefs } from "pinia";
+import { useAppUserStore } from "../stores/user.store";
 
 const emit = defineEmits<{
   (e: "submit", trainee: Trainee): void;
@@ -69,8 +81,10 @@ const emit = defineEmits<{
 }>();
 
 const traineeStore = useTraineeStore();
+const appUserStore = useAppUserStore();
 
 const { trainee } = storeToRefs(traineeStore);
+const { appUser } = storeToRefs(appUserStore);
 
 const cancelForm = () => {
   emit("cancel");

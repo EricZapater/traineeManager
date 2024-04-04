@@ -53,7 +53,7 @@ const appUserStore = useAppUserStore();
 
 // Menú actual basado en el profileId del appUser
 const currentMenu = computed(() => {
-  const profileId = appUserStore.appUser?.ProfileID;
+  const profileId = appUserStore.loginUser?.ProfileID;
   return profileId ? menus[profileId] || [] : [];
 });
 </script>

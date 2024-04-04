@@ -20,7 +20,7 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   const appUserStore = useAppUserStore();
   console.log(from);
-  if (to.path !== "/auth/login" && !appUserStore.appUser) {
+  if (to.path !== "/auth/login" && !appUserStore.loginUser) {
     next("/auth/login");
   } else {
     next();

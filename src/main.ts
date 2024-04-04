@@ -24,6 +24,7 @@ import Calendar from "primevue/calendar";
 import Textarea from "primevue/textarea";
 import TabView from "primevue/tabview";
 import TabPanel from "primevue/tabpanel";
+import { useAppUserStore } from "./stores/user.store";
 
 const pinia = createPinia();
 const app = createApp(App);
@@ -49,5 +50,8 @@ app.component("Calendar", Calendar);
 app.component("Textarea", Textarea);
 app.component("TabView", TabView);
 app.component("TabPanel", TabPanel);
+
+const appUserStore = useAppUserStore();
+appUserStore.initializeLoginState();
 
 app.mount("#app");

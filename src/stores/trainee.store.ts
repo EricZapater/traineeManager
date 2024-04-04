@@ -21,8 +21,20 @@ export const useTraineeStore = defineStore("trainee", {
       this.activeTrainees = response.data;
     },
     async createTrainee(trainee: Trainee) {
-      const result = await traineeService.CreateTrainee(trainee);
+      var result = await traineeService.CreateTrainee(trainee);
       return result;
+    },
+    async getTrainee(id: string) {
+      var response = await traineeService.GetTrainee(id);
+      this.trainee = response.data;
+    },
+    async updateTrainee(trainee: Trainee) {
+      var response = await traineeService.UpdateTrainee(trainee);
+      return response;
+    },
+    async deleteTrainee(trainee: Trainee) {
+      var response = await traineeService.DeleteTrainee(trainee);
+      return response;
     },
     setTrainee(trainee: Trainee) {
       this.trainee = trainee;

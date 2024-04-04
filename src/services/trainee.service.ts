@@ -22,7 +22,27 @@ export class TraineeService<Trainee> {
     if (response.status === 200 || response.status === 201) {
       return true;
     } else {
-      return false;
+      return response;
     }
+  }
+  async GetTrainee(id: string): Promise<any> {
+    const response: AxiosResponse<Trainee> = await api.get(
+      "/api/trainee/" + id
+    );
+    return response.data;
+  }
+  async UpdateTrainee(trainee: Trainee): Promise<any> {
+    const response: AxiosResponse<any> = await api.put("/api/trainee", trainee);
+    if (response.status === 200 || response.status === 201) {
+      return true;
+    } else {
+      return response;
+    }
+  }
+  async DeleteTrainee(trainee: Trainee): Promise<any> {
+    const response: AxiosResponse<any> = await api.delete("/api/trainee", {
+      data: trainee,
+    });
+    return response;
   }
 }

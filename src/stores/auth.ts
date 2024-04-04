@@ -21,7 +21,8 @@ export const useAuthStore = defineStore("auth", {
           password,
         });
         const appUserStore = useAppUserStore();
-        appUserStore.setAppUser(response.data.data);
+        /*appUserStore.setLoginUser(response.data.data);*/
+        appUserStore.saveLoginState(response.data.data);
         return response;
       } catch (error) {
         console.log("Error a l'iniciar sessió: ", error);

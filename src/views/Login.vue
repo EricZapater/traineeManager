@@ -42,7 +42,6 @@ const login = async () => {
         life: 5000,
       });
     }
-    console.log(response);
   } catch (error) {
     toast.add({
       severity: "error",

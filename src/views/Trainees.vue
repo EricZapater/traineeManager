@@ -42,31 +42,73 @@ import { useTraineeStore } from "../stores/trainee.store";
 import FormTrainee from "../components/FormTrainee.vue";
 import { storeToRefs } from "pinia";
 import { Trainee } from "../types";
+import { getNewUuid } from "../utils/common";
+import { useAppUserStore } from "../stores/user.store";
+import { useToast } from "primevue/usetoast";
 
 const traineeStore = useTraineeStore();
+const appUserStore = useAppUserStore();
+const toast = useToast();
 
 const visible = ref(false);
 const createMode = ref(true);
 
 const { trainee } = storeToRefs(traineeStore);
+const { appUser } = storeToRefs(appUserStore);
 
 onMounted(async () => {
   await traineeStore.fetchTrainees();
-  console.log(traineeStore.trainee);
 });
 
 const createButton = () => {
   createMode.value = true;
   clearTrainee();
+  clearAppUser();
+  appUser.value = {
+    ID: getNewUuid(),
+    CreatedOn: new Date(),
+    Username: "",
+    Password: "",
+    ProfileID: "c027666e-1c40-4a5f-9ed4-13a9bff0c826",
+    Active: true,
+  };
   visible.value = true;
 };
 
 const submitForm = async () => {
   visible.value = false;
   if (createMode.value === true) {
-    traineeStore.createTrainee(trainee.value);
+    appUser.value!.ID = getNewUuid();
+    trainee.value.ID = getNewUuid();
+    trainee.value.UserID = appUser.value!.ID;
+    var res = await appUserStore.createAppUser(appUser.value!);
+    if (!res) {
+      toast.add({
+        severity: "error",
+        summary: "Ha ocorregut un error al registrar l'usuari " + res,
+        life: 5000,
+      });
+      return;
+    }
+    res = await traineeStore.createTrainee(trainee.value);
+    await traineeStore.fetchTrainees();
+    if (res === true) {
+      toast.add({
+        severity: "success",
+        summary: "Trainee registrat correctament",
+        life: 5000,
+      });
+    } else {
+      toast.add({
+        severity: "error",
+        summary: "Ha ocorregut un error al registrar el trainee " + res,
+        life: 5000,
+      });
+    }
+  } else {
+    traineeStore.updateTrainee(trainee.value);
+    appUserStore.updateAppUser(appUser.value!);
   }
-  console.log(trainee.value);
 };
 
 const cancelForm = () => {
@@ -74,21 +116,37 @@ const cancelForm = () => {
   visible.value = false;
 };
 
-const editButton = (event: any, trainee: Trainee) => {
+const editButton = async (event: any, trainee: Trainee) => {
   console.log(event);
   createMode.value = false;
   traineeStore.setTrainee(trainee);
+  appUserStore.fetchAppUserById(trainee.UserID);
   visible.value = true;
 };
 
-const deleteButton = (event: any, trainee: Trainee) => {
+const deleteButton = async (event: any, trainee: Trainee) => {
   console.log(event);
-  console.log(trainee);
+  var response = traineeStore.deleteTrainee(trainee);
+  await traineeStore.fetchTrainees();
+  console.log(response);
+  /*if (response.status === 200 || response.status === 201) {
+      toast.add({
+        severity: "success",
+        summary: "Trainee registrat correctament",
+        life: 5000,
+      });
+    } else {
+      toast.add({
+        severity: "error",
+        summary: "Ha ocorregut un error al registrar el trainee " + res,
+        life: 5000,
+      });
+    }*/
 };
 
 const clearTrainee = () => {
   trainee.value = {
-    ID: "sdf",
+    ID: "",
     CreatedOn: new Date(),
     Name: "",
     Surname: "",
@@ -105,6 +163,17 @@ const clearTrainee = () => {
     UserID: "",
     Active: true,
     ActiveSince: new Date(),
+  };
+};
+
+const clearAppUser = () => {
+  appUser.value = {
+    ID: "",
+    CreatedOn: new Date(),
+    Username: "",
+    Password: "",
+    ProfileID: "",
+    Active: true,
   };
 };
 </script>
