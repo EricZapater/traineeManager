@@ -18,7 +18,7 @@ export class AppUserService<AppUser> {
     );
     return response.data;
   }
-  async GetAppUserById(id: string): Promise<AppUser> {
+  async GetAppUserById(id: string): Promise<any> {
     const response: AxiosResponse<AppUser> = await api.get("/api/user/" + id);
     return response.data;
   }

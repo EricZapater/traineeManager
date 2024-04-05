@@ -25,6 +25,8 @@ import Textarea from "primevue/textarea";
 import TabView from "primevue/tabview";
 import TabPanel from "primevue/tabpanel";
 import { useAppUserStore } from "./stores/user.store";
+import ConfirmPopup from "primevue/confirmpopup";
+import ConfirmationService from "primevue/confirmationservice";
 
 const pinia = createPinia();
 const app = createApp(App);
@@ -33,6 +35,7 @@ app.use(pinia);
 app.use(router);
 app.use(PrimeVue);
 app.use(ToastService);
+app.use(ConfirmationService);
 
 app.config.globalProperties.$axios = axios;
 
@@ -50,6 +53,7 @@ app.component("Calendar", Calendar);
 app.component("Textarea", Textarea);
 app.component("TabView", TabView);
 app.component("TabPanel", TabPanel);
+app.component("ConfirmPopup", ConfirmPopup);
 
 const appUserStore = useAppUserStore();
 appUserStore.initializeLoginState();

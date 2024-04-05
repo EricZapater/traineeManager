@@ -8,15 +8,19 @@
   <section class="table">
     <DataTable
       :value="traineeStore.trainees"
+      :rowClass="rowClass"
       showGridlines
       :table-style="{ minWidth: '50rem' }"
       paginator
       :rows="10"
       :rowsPerPageOptions="[10, 20, 50]"
     >
-      <Column field="ID" header="id"></Column>
       <Column field="Name" header="name"></Column>
       <Column field="Surname" header="surname"></Column>
+      <Column field="Country" header="country"></Column>
+      <Column field="Phone Number" header="phone"></Column>
+      <Column field="EMail" header="mail"></Column>
+      <Column field="Active" header="active"></Column>
       <Column>
         <template #body="slotProps">
           <i class="pi pi-pencil" @click="editButton($event, slotProps.data)" />
@@ -28,6 +32,7 @@
             class="pi pi-trash"
             @click="deleteButton($event, slotProps.data)"
           />
+          <ConfirmPopup></ConfirmPopup>
         </template>
       </Column>
     </DataTable>
@@ -45,10 +50,12 @@ import { Trainee } from "../types";
 import { getNewUuid } from "../utils/common";
 import { useAppUserStore } from "../stores/user.store";
 import { useToast } from "primevue/usetoast";
+import { useConfirm } from "primevue/useconfirm";
 
 const traineeStore = useTraineeStore();
 const appUserStore = useAppUserStore();
 const toast = useToast();
+const confirm = useConfirm();
 
 const visible = ref(false);
 const createMode = ref(true);
@@ -65,7 +72,7 @@ const createButton = () => {
   clearTrainee();
   clearAppUser();
   appUser.value = {
-    ID: getNewUuid(),
+    ID: "",
     CreatedOn: new Date(),
     Username: "",
     Password: "",
@@ -73,6 +80,10 @@ const createButton = () => {
     Active: true,
   };
   visible.value = true;
+};
+
+const rowClass = (data: Trainee) => {
+  return [{ "inactive-row": data.Active === false }];
 };
 
 const submitForm = async () => {
@@ -86,7 +97,7 @@ const submitForm = async () => {
       toast.add({
         severity: "error",
         summary: "Ha ocorregut un error al registrar l'usuari " + res,
-        life: 5000,
+        life: 3000,
       });
       return;
     }
@@ -96,13 +107,13 @@ const submitForm = async () => {
       toast.add({
         severity: "success",
         summary: "Trainee registrat correctament",
-        life: 5000,
+        life: 3000,
       });
     } else {
       toast.add({
         severity: "error",
         summary: "Ha ocorregut un error al registrar el trainee " + res,
-        life: 5000,
+        life: 3000,
       });
     }
   } else {
@@ -120,28 +131,48 @@ const editButton = async (event: any, trainee: Trainee) => {
   console.log(event);
   createMode.value = false;
   traineeStore.setTrainee(trainee);
-  appUserStore.fetchAppUserById(trainee.UserID);
+  await appUserStore.fetchAppUserById(trainee.UserID);
+  console.log(appUser.value);
+  if (appUser.value) {
+    appUser.value = { ...appUser.value, Password: "" };
+  }
   visible.value = true;
 };
 
 const deleteButton = async (event: any, trainee: Trainee) => {
-  console.log(event);
-  var response = traineeStore.deleteTrainee(trainee);
-  await traineeStore.fetchTrainees();
-  console.log(response);
-  /*if (response.status === 200 || response.status === 201) {
-      toast.add({
-        severity: "success",
-        summary: "Trainee registrat correctament",
-        life: 5000,
-      });
-    } else {
+  confirm.require({
+    target: event.currentTarget,
+    message:
+      "Estas segur que vols eliminar al trainee: " +
+      trainee.Name +
+      ", " +
+      trainee.Surname,
+    icon: "pi pi-exclamation-triangle",
+    rejectClass: "p-button-secondary p-button-outlined p-button-sm",
+    acceptClass: "p-button-sm",
+    rejectLabel: "Cancel",
+    acceptLabel: "Save",
+    accept: async () => {
+      var response = await traineeStore.deleteTrainee(trainee);
+      if (response.status === 200 || response.status === 201) {
+        toast.add({
+          severity: "info",
+          summary: "Confirmed",
+          detail: "Registre esborrat correectament",
+          life: 3000,
+        });
+      }
+      await traineeStore.fetchTrainees();
+    },
+    reject: () => {
       toast.add({
         severity: "error",
-        summary: "Ha ocorregut un error al registrar el trainee " + res,
-        life: 5000,
+        summary: "Rejected",
+        detail: "You have rejected",
+        life: 3000,
       });
-    }*/
+    },
+  });
 };
 
 const clearTrainee = () => {

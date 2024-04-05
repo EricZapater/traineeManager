@@ -37,7 +37,8 @@ export const useAppUserStore = defineStore({
       this.appUser = await service.GetAppUserByLogin(login);
     },
     async fetchAppUserById(id: string) {
-      this.appUser = await service.GetAppUserById(id);
+      var response = await service.GetAppUserById(id);
+      this.appUser = response.data;
     },
     async createAppUser(appUser: AppUser) {
       var result = await service.CreateAppUser(appUser);
