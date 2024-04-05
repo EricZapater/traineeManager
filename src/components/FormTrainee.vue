@@ -1,5 +1,5 @@
 <template>
-  <TabView>
+  <TabView class="v-scrollable-tabview">
     <TabPanel header="Trainee Data" v-if="trainee">
       <section class="four-columns">
         <div class="input-container">
@@ -19,7 +19,7 @@
           <Calendar id="birthdate" v-model="trainee.Birthdate"></Calendar>
         </div>
       </section>
-      <section class="three-columns">
+      <section class="two-columns">
         <div class="input-container">
           <label>Mail:</label>
           <InputText id="name" v-model="trainee.EMail"></InputText>
@@ -28,15 +28,25 @@
           <label>Phone Number:</label>
           <InputText id="surname" v-model="trainee.Phone"></InputText>
         </div>
-        <div class="input-container">
-          <label>Name:</label>
-          <InputText id="name" v-model="trainee.Name"></InputText>
-        </div>
       </section>
       <section>
         <div class="input-container">
           <label>Address</label>
           <InputText id="address" v-model="trainee.Address" />
+        </div>
+      </section>
+      <section class="three-columns">
+        <div class="input-container">
+          <label for="city">City</label>
+          <InputText id="city" v-model="trainee.City" />
+        </div>
+        <div class="input-container">
+          <label for="postcode">PostCode</label>
+          <InputText id="postcode" v-model="trainee.PostCode" />
+        </div>
+        <div class="input-container">
+          <label for="country">Country</label>
+          <InputText id="country" v-model="trainee.Country" />
         </div>
       </section>
       <section>
@@ -53,7 +63,7 @@
           <InputText id="username" v-model="appUser.Username" />
         </div>
         <div class="input-container">
-          <label>Password</label>
+          <label> New Password</label>
           <InputText id="password" v-model="appUser.Password" />
         </div>
       </section>
@@ -92,20 +102,5 @@ const cancelForm = () => {
 
 const submitForm = async () => {
   emit("submit", trainee.value as Trainee);
-  /*validate();
-  if (validation.value.result) {
-    emit("submit", customer.value as Customer);
-  } else {
-    let errors = "";
-    Object.entries(validation.value.errors).forEach((e) => {
-      errors += `${e[1].map((e) => e)}.   `;
-    });
-    toast.add({
-      severity: "warn",
-      summary: "Formulari inválid",
-      detail: errors,
-      life: 5000,
-    });
-  }*/
 };
 </script>

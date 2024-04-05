@@ -15,13 +15,27 @@ export const useAppUserStore = defineStore({
   actions: {
     initializeLoginState() {
       const storedUser = localStorage.getItem("loginUser");
-      if (storedUser) {
-        this.loginUser = JSON.parse(storedUser);
+      if (!storedUser) {
+        this.loginUser = undefined;
+        return null;
       }
+      const user = JSON.parse(storedUser);
+      const now = new Date();
+      if (now.getTime() > user.expiry) {
+        localStorage.removeItem("loginUser");
+        this.loginUser = undefined;
+        return null;
+      }
+      this.loginUser = user.value;
     },
     saveLoginState(user: AppUser) {
+      const now = new Date();
+      const item = {
+        value: user,
+        expiry: now.getTime() + 1 * 60 * 60 * 1000,
+      };
       this.loginUser = user;
-      localStorage.setItem("loginUser", JSON.stringify(user));
+      localStorage.setItem("loginUser", JSON.stringify(item));
     },
     clearLoginState() {
       this.loginUser = undefined;
@@ -37,11 +51,11 @@ export const useAppUserStore = defineStore({
       this.appUser = await service.GetAppUserByLogin(login);
     },
     async fetchAppUserById(id: string) {
-      var response = await service.GetAppUserById(id);
+      let response = await service.GetAppUserById(id);
       this.appUser = response.data;
     },
     async createAppUser(appUser: AppUser) {
-      var result = await service.CreateAppUser(appUser);
+      let result = await service.CreateAppUser(appUser);
       return result;
     },
     async updateAppUser(appUser: AppUser) {

@@ -117,8 +117,27 @@ const submitForm = async () => {
       });
     }
   } else {
-    traineeStore.updateTrainee(trainee.value);
-    appUserStore.updateAppUser(appUser.value!);
+    //let resUser: any = Boolean(true);
+    let res = await traineeStore.updateTrainee(trainee.value);
+    if (appUser.value) {
+      if (appUser.value.Password != "") {
+        res = await appUserStore.updateAppUser(appUser.value);
+      }
+    }
+    await traineeStore.fetchTrainees();
+    if (res === true) {
+      toast.add({
+        severity: "success",
+        summary: "Trainee actualitzat correctament",
+        life: 3000,
+      });
+    } else {
+      toast.add({
+        severity: "error",
+        summary: "Error a l'actualitzar el trainee",
+        life: 3000,
+      });
+    }
   }
 };
 

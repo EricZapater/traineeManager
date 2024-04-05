@@ -16,8 +16,10 @@
     "primevue": "^3.49.1",
     "toast": "^0.5.4",
     "uuid": "^9.0.1",
+    "vee-validate": "^4.5.8",
     "vue": "^3.4.19",
-    "vue-router": "^4.3.0"
+    "vue-router": "^4.3.0",
+    "yup": "^1.4.0"
   },
   "devDependencies": {
     "@types/uuid": "^9.0.8",

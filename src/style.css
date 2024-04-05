@@ -1,3 +1,8 @@
+.two-columns {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
 .three-columns {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -31,4 +36,13 @@
 
 .inactive-row {
   background-color: #ffe8e8; /* Fondo rojo claro para indicar inactividad */
+}
+
+.v-scrollable-tabview .p-tabview-nav {
+  height: auto !important;
+}
+
+.v-scrollable-tabview .p-tabview-panel {
+  flex-grow: 1;
+  overflow-y: auto;
 }
