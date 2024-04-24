@@ -13,7 +13,7 @@ export const useTraineeStore = defineStore("trainee", {
   }),
   actions: {
     async fetchTrainees() {
-      var response = await traineeService.GetTrainees();
+      let response = await traineeService.GetTrainees();
       this.trainees = response.data;
     },
     async fetchActiveTrainees() {

@@ -1,3 +1,5 @@
+import { DateSchema } from "yup";
+
 export interface AppUser {
   ID: string;
   CreatedOn: Date;
@@ -37,14 +39,38 @@ export interface Trainee {
   Country: string;
   PhotoPath: string;
   UserID: string;
+  FeeID: string;
+  LastPayment: Date;
+  NextPayment: Date;
   Active: boolean;
   ActiveSince: Date;
+}
+
+export interface Fee {
+  ID: string;
+  CreatedOn: Date;
+  Name: string;
+  PaymentIntervalMonths: number;
+  Active: boolean;
+}
+
+export interface Payment {
+  ID: string;
+  CreatedOn: Date;
+  PaymentTypeId: string;
+  BaseAmount: number;
+  Vat: number;
+  VatPercentage: number;
+  IncomeTax: number;
+  IncomeTaxPercentage: number;
+  TotalAmount: number;
 }
 
 export interface MenuItems {
   label: string;
   icon: string;
   to?: string;
+  items?: MenuItems[];
   command?: () => void;
 }
 

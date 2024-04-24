@@ -1,0 +1,10 @@
+{
+  "message": {
+    "hello": "Hello world",
+    "bye": "Goodbye"
+  },
+  "menu": {
+    "incomes": "Ingressos",
+    "fees": "Quotes"
+  }
+}

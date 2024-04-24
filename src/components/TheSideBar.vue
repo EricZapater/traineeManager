@@ -9,6 +9,9 @@ import { computed } from "vue";
 import { useAppUserStore } from "../stores/user.store"; // Asegura la ruta correcta
 import { Menus } from "../types";
 import { useRouter } from "vue-router";
+import { useI18n } from "vue-i18n";
+
+const { t } = useI18n();
 
 const router = useRouter();
 // Definición de los menús
@@ -31,12 +34,18 @@ const menus: Menus = {
       },
     },
     {
-      label: "Dashboard",
+      label: "menu.incomes",
       icon: "pi pi-fw pi-home",
-      to: "/dashboard",
-      command: () => {
-        router.push("/dashboard");
-      },
+      items: [
+        {
+          label: "menu.fees",
+          icon: "pi pi-fw pi-calendar",
+          to: "/",
+          command: () => {
+            router.push("/fees");
+          },
+        },
+      ],
     },
     { label: "Settings", icon: "pi pi-fw pi-cog", to: "/settings" },
   ],
@@ -51,15 +60,28 @@ const menus: Menus = {
 };
 const appUserStore = useAppUserStore();
 
+function translateMenuItems(menuItems: any[]): any[] {
+  return menuItems.map((item) => {
+    const translatedItem = { ...item, label: t(item.label) };
+    if (item.items) {
+      translatedItem.items = translateMenuItems(item.items); // Aplica la traducción a los submenús
+    }
+    return translatedItem;
+  });
+}
+
 // Menú actual basado en el profileId del appUser
 const currentMenu = computed(() => {
   const profileId = appUserStore.loginUser?.ProfileID;
-  return profileId ? menus[profileId] || [] : [];
+  const userMenus = menus[profileId!] || [];
+
+  return translateMenuItems(userMenus);
+  //return profileId ? menus[profileId] || [] : [];
 });
 </script>
 <style scoped>
 .sidebar {
-  width: 250px; /* Ajusta este valor según necesites */
+  width: 150px; /* Ajusta este valor según necesites */
   max-width: 100%;
   height: 100vh; /* Ocupa la altura completa de la ventana */
   overflow-y: auto; /* Permite desplazamiento vertical si el contenido es muy largo */

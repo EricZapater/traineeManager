@@ -46,3 +46,9 @@
   flex-grow: 1;
   overflow-y: auto;
 }
+
+.table-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

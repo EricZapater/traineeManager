@@ -12,7 +12,7 @@
         <!--<InputText id="password" v-model="password" placeholder="Enter your password" :type="showPassword ? 'text' : 'password'" />
         <i class="pi" :class="showPassword ? 'pi-eye-slash' : 'pi-eye'" @click="toggleShowPassword"></i>-->
       </div>
-      <Button label="Log In" @click.prevent="login">Log In</Button>
+      <Button label="Log In" @click="login">Log In</Button>
     </form>
   </div>
 </template>

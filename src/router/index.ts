@@ -4,12 +4,14 @@ import Home from "../views/Home.vue";
 import Dashboard from "../views/Dashboard.vue";
 import Trainees from "../views/Trainees.vue";
 import { useAppUserStore } from "../stores/user.store";
+import Fees from "../views/Fees.vue";
 
 const routes = [
   { path: "/home", component: Home },
   { path: "/auth/login", component: Login },
   { path: "/dashboard", component: Dashboard },
   { path: "/trainees", component: Trainees, name: "Trainees" },
+  { path: "/fees", component: Fees, name: "Fees" },
 ];
 
 const router = createRouter({

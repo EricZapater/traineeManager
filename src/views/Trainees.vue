@@ -8,7 +8,6 @@
   <section class="table">
     <DataTable
       :value="traineeStore.trainees"
-      :rowClass="rowClass"
       showGridlines
       :table-style="{ minWidth: '50rem' }"
       paginator
@@ -42,7 +41,7 @@
   </Dialog>
 </template>
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
+import { onMounted, ref, computed } from "vue";
 import { useTraineeStore } from "../stores/trainee.store";
 import FormTrainee from "../components/FormTrainee.vue";
 import { storeToRefs } from "pinia";
@@ -51,6 +50,7 @@ import { getNewUuid } from "../utils/common";
 import { useAppUserStore } from "../stores/user.store";
 import { useToast } from "primevue/usetoast";
 import { useConfirm } from "primevue/useconfirm";
+//import { rowClass } from "../utils/common";
 
 const traineeStore = useTraineeStore();
 const appUserStore = useAppUserStore();
@@ -82,9 +82,14 @@ const createButton = () => {
   visible.value = true;
 };
 
+/*const computedRowClass = computed(() => {
+  return traineeStore.trainees.map((trainee) => ({
+    "inactive-row": trainee.Active === false,
+  }));
+});
 const rowClass = (data: Trainee) => {
   return [{ "inactive-row": data.Active === false }];
-};
+};*/
 
 const submitForm = async () => {
   visible.value = false;
@@ -172,7 +177,7 @@ const deleteButton = async (event: any, trainee: Trainee) => {
     rejectLabel: "Cancel",
     acceptLabel: "Save",
     accept: async () => {
-      var response = await traineeStore.deleteTrainee(trainee);
+      let response = await traineeStore.deleteTrainee(trainee);
       if (response.status === 200 || response.status === 201) {
         toast.add({
           severity: "info",
@@ -211,6 +216,9 @@ const clearTrainee = () => {
     Country: "",
     PhotoPath: "",
     UserID: "",
+    FeeID: "",
+    LastPayment: new Date(),
+    NextPayment: new Date(),
     Active: true,
     ActiveSince: new Date(),
   };
@@ -227,10 +235,4 @@ const clearAppUser = () => {
   };
 };
 </script>
-<style scoped>
-.table-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-</style>
+<style scoped></style>

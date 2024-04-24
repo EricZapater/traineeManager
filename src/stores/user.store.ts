@@ -30,6 +30,7 @@ export const useAppUserStore = defineStore({
     },
     saveLoginState(user: AppUser) {
       const now = new Date();
+      user.Password = "";
       const item = {
         value: user,
         expiry: now.getTime() + 1 * 60 * 60 * 1000,
