@@ -20,6 +20,11 @@
   grid-template-columns: repeat(5, 1fr);
   gap: 1rem;
 }
+.six-columns {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 1rem;
+}
 .input-container {
   display: flex;
   flex-direction: column;

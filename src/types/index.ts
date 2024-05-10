@@ -51,6 +51,12 @@ export interface Fee {
   CreatedOn: Date;
   Name: string;
   PaymentIntervalMonths: number;
+  BaseAmount: number;
+  Vat: number;
+  VatPercentage: number;
+  IncomeTax: number;
+  IncomeTaxPercentage: number;
+  TotalAmount: number;
   Active: boolean;
 }
 
@@ -58,6 +64,7 @@ export interface Payment {
   ID: string;
   CreatedOn: Date;
   PaymentTypeId: string;
+  TraineeID: string;
   BaseAmount: number;
   Vat: number;
   VatPercentage: number;

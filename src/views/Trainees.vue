@@ -22,6 +22,14 @@
       <Column field="Active" header="active"></Column>
       <Column>
         <template #body="slotProps">
+          <i
+            class="pi pi-euro"
+            @click="createPayment($event, slotProps.data)"
+          />
+        </template>
+      </Column>
+      <Column>
+        <template #body="slotProps">
           <i class="pi pi-pencil" @click="editButton($event, slotProps.data)" />
         </template>
       </Column>
@@ -45,15 +53,17 @@ import { onMounted, ref, computed } from "vue";
 import { useTraineeStore } from "../stores/trainee.store";
 import FormTrainee from "../components/FormTrainee.vue";
 import { storeToRefs } from "pinia";
-import { Trainee } from "../types";
+import { Payment, Trainee } from "../types";
 import { getNewUuid } from "../utils/common";
 import { useAppUserStore } from "../stores/user.store";
 import { useToast } from "primevue/usetoast";
 import { useConfirm } from "primevue/useconfirm";
+import { usePaymentStore } from "../stores/income.store";
 //import { rowClass } from "../utils/common";
 
 const traineeStore = useTraineeStore();
 const appUserStore = useAppUserStore();
+const paymentStore = usePaymentStore();
 const toast = useToast();
 const confirm = useConfirm();
 
@@ -156,11 +166,57 @@ const editButton = async (event: any, trainee: Trainee) => {
   createMode.value = false;
   traineeStore.setTrainee(trainee);
   await appUserStore.fetchAppUserById(trainee.UserID);
-  console.log(appUser.value);
   if (appUser.value) {
     appUser.value = { ...appUser.value, Password: "" };
   }
   visible.value = true;
+};
+
+const createPayment = async (event: any, trainee: Trainee) => {
+  let payment = {
+    ID: getNewUuid(),
+    CreatedOn: new Date(),
+    PaymentTypeId: getNewUuid(),
+    TraineeID: trainee.ID,
+    BaseAmount: 0,
+    Vat: 0,
+    VatPercentage: 0,
+    IncomeTax: 0,
+    IncomeTaxPercentage: 0,
+    TotalAmount: 0,
+  } as Payment;
+
+  confirm.require({
+    target: event.currentTarget,
+    message:
+      "Generaràs el pagament a l'esportista: " +
+      trainee.Name +
+      ". N'estas segur?",
+    icon: "pi pi-exclamation-triangle",
+    rejectClass: "p-button-secondary p-button-outlined p-button-sm",
+    acceptClass: "p-button-sm",
+    rejectLabel: "Cancel",
+    acceptLabel: "Save",
+    accept: async () => {
+      let response = await paymentStore.createPayment(payment);
+
+      if (response) {
+        toast.add({
+          severity: "success",
+          summary: "Confirmed",
+          detail: "Pago registrat correctament",
+          life: 3000,
+        });
+      } else {
+        toast.add({
+          severity: "error",
+          summary: "Error",
+          detail: "Error al registrar el pago: " + response,
+          life: 3000,
+        });
+      }
+    },
+  });
 };
 
 const deleteButton = async (event: any, trainee: Trainee) => {
@@ -182,7 +238,7 @@ const deleteButton = async (event: any, trainee: Trainee) => {
         toast.add({
           severity: "info",
           summary: "Confirmed",
-          detail: "Registre esborrat correectament",
+          detail: "Registre esborrat correctament",
           life: 3000,
         });
       }

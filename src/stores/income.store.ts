@@ -55,13 +55,13 @@ export const usePaymentStore = defineStore("payment", {
       let response = await paymentService.GetPayments();
       this.payments = response.data;
     },
-    async getPayment(id: string) {
+    /*async getPayments(id: string) {
       this.payment = await paymentService.GetPayment(id);
     },
     async updatePayment(payment: Payment) {
       let response = await paymentService.UpdatePayment(payment);
       return response;
-    },
+    },*/
     async deletePayment(payment: Payment) {
       let response = await paymentService.DeletePayment(payment);
       return response;

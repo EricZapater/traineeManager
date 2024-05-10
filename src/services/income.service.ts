@@ -3,11 +3,23 @@ import { AxiosResponse } from "axios";
 
 export class FeeService<Fee> {
   async CreateFee(fee: Fee): Promise<any> {
-    const response: AxiosResponse<any> = await api.post("/api/fee", fee);
-    if (response.status === 200 || response.status === 201) {
-      return true;
-    } else {
-      return response;
+    try {
+      const response: AxiosResponse<any> = await api.post("/api/fee", fee);
+      if (response.status === 200 || response.status === 201) {
+        return true;
+      } else {
+        console.error("Failed to create fee:", response.status, response.data);
+        return false;
+      }
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        // Aquí sabemos que 'error' es un objeto Error estándar de JavaScript
+        console.error("Error in CreateFee:", error.message);
+      } else {
+        // Si el error no es de tipo Error, aún se maneja de forma general
+        console.error("An unexpected error occurred:", error);
+      }
+      return false;
     }
   }
   async GetFees(): Promise<any> {
@@ -52,7 +64,16 @@ export class PaymentService<Payment> {
     );
     return response.data;
   }
-  async GetPayment(id: string): Promise<any> {
+  async GetPaymentsBetweenDates(
+    startTime: string,
+    endTime: string
+  ): Promise<any> {
+    const response: AxiosResponse<Array<Payment>> = await api.get(
+      "/api/payment" + startTime + "/" + endTime
+    );
+    return response.data;
+  }
+  /*async GetPayment(id: string): Promise<any> {
     const response: AxiosResponse<Payment> = await api.get("/api/payment" + id);
     return response.data;
   }
@@ -63,7 +84,7 @@ export class PaymentService<Payment> {
     } else {
       return response;
     }
-  }
+  }*/
   async DeletePayment(payment: Payment): Promise<any> {
     const response: AxiosResponse<any> = await api.delete("/api/payment", {
       data: payment,
