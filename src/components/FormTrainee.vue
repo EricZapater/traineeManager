@@ -55,6 +55,26 @@
           <Textarea id="addressextra" v-model="trainee.AddressExtra" />
         </div>
       </section>
+      <section class="three-columns">
+        <div class="input-container">
+          <label for="feeId">Fee</label>
+          <Dropdown
+            v-model="trainee.FeeID"
+            id="feeId"
+            :options="fees"
+            optionLabel="Name"
+            optionValue="ID"
+          ></Dropdown>
+        </div>
+        <div class="input-container">
+          <label for="lastPayment">Last Payment</label>
+          <Calendar id="lastPayment" v-model="trainee.LastPayment" disabled />
+        </div>
+        <div class="input-container">
+          <label for="nextPayment">Next Payment</label>
+          <Calendar id="nextPayment" v-model="trainee.NextPayment" disabled />
+        </div>
+      </section>
     </TabPanel>
     <TabPanel header="User Data" v-if="appUser">
       <section class="three-columns">
@@ -67,6 +87,27 @@
           <InputText id="password" v-model="appUser.Password" />
         </div>
       </section>
+    </TabPanel>
+    <TabPanel header="Payments">
+      <DataTable
+        :value="paymentStore.payments"
+        showGridlines
+        :table-style="{ minWidth: '50rem' }"
+        paginator
+        :rows="10"
+        :rowsPerPageOptions="[10, 20, 50]"
+      >
+        <Column field="CreatedOn" header="createdon"></Column>
+        <Column field="BaseAmount" header="baseamount"></Column>
+        <Column field="VatPercentage" header="vatpercentage"></Column>
+        <Column field="Vat" header="vat"></Column>
+        <Column
+          field="IncomeTaxPercentage"
+          header="incometaxpercentage"
+        ></Column>
+        <Column field="IncomeTax" header="incometax"></Column>
+        <Column field="TotalAmount" header="totalamount"></Column>
+      </DataTable>
     </TabPanel>
   </TabView>
   <div class="flex justify-content-end gap-2">
@@ -84,6 +125,7 @@ import { Trainee } from "../types";
 import { useTraineeStore } from "../stores/trainee.store";
 import { storeToRefs } from "pinia";
 import { useAppUserStore } from "../stores/user.store";
+import { useFeeStore, usePaymentStore } from "../stores/income.store";
 
 const emit = defineEmits<{
   (e: "submit", trainee: Trainee): void;
@@ -92,9 +134,13 @@ const emit = defineEmits<{
 
 const traineeStore = useTraineeStore();
 const appUserStore = useAppUserStore();
+const feeStore = useFeeStore();
+const paymentStore = usePaymentStore();
 
 const { trainee } = storeToRefs(traineeStore);
 const { appUser } = storeToRefs(appUserStore);
+const { fees } = storeToRefs(feeStore);
+const { payments } = storeToRefs(paymentStore);
 
 const cancelForm = () => {
   emit("cancel");

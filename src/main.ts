@@ -20,6 +20,7 @@ import DataTable from "primevue/datatable";
 import Column from "primevue/column";
 import ColumnGroup from "primevue/columngroup"; // optional
 import Row from "primevue/row"; // optional
+import Dropdown from "primevue/dropdown";
 import Dialog from "primevue/dialog";
 import Calendar from "primevue/calendar";
 import Textarea from "primevue/textarea";
@@ -70,6 +71,7 @@ app.component("Textarea", Textarea);
 app.component("TabView", TabView);
 app.component("TabPanel", TabPanel);
 app.component("ConfirmPopup", ConfirmPopup);
+app.component("Dropdown", Dropdown);
 
 const appUserStore = useAppUserStore();
 appUserStore.initializeLoginState();

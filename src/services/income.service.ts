@@ -27,7 +27,7 @@ export class FeeService<Fee> {
     return response.data;
   }
   async GetFee(id: string): Promise<any> {
-    const response: AxiosResponse<Fee> = await api.get("/api/fee" + id);
+    const response: AxiosResponse<Fee> = await api.get("/api/fee/" + id);
     return response.data;
   }
   async UpdateFee(fee: Fee): Promise<any> {
@@ -69,15 +69,17 @@ export class PaymentService<Payment> {
     endTime: string
   ): Promise<any> {
     const response: AxiosResponse<Array<Payment>> = await api.get(
-      "/api/payment" + startTime + "/" + endTime
+      "/api/payment/GetBetweenDates/" + startTime + "/" + endTime
     );
     return response.data;
   }
-  /*async GetPayment(id: string): Promise<any> {
-    const response: AxiosResponse<Payment> = await api.get("/api/payment" + id);
+  async GetPaymentsByTraineeId(id: string): Promise<any> {
+    const response: AxiosResponse<Payment> = await api.get(
+      "/api/payment/GetByTraineeId/" + id
+    );
     return response.data;
   }
-  async UpdatePayment(payment: Payment): Promise<any> {
+  /*async UpdatePayment(payment: Payment): Promise<any> {
     const response: AxiosResponse<any> = await api.put("/api/payment", payment);
     if (response.status === 200 || response.status === 201) {
       return true;

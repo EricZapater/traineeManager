@@ -20,10 +20,13 @@
       <Column field="Phone Number" header="phone"></Column>
       <Column field="EMail" header="mail"></Column>
       <Column field="Active" header="active"></Column>
+      <Column field="LastPayment" header="lastpayment"></Column>
+      <Column field="NextPayment" header="nextpayment"></Column>
       <Column>
         <template #body="slotProps">
-          <i
-            class="pi pi-euro"
+          <Button
+            label="Pagament"
+            icon="pi pi-euro"
             @click="createPayment($event, slotProps.data)"
           />
         </template>
@@ -58,12 +61,13 @@ import { getNewUuid } from "../utils/common";
 import { useAppUserStore } from "../stores/user.store";
 import { useToast } from "primevue/usetoast";
 import { useConfirm } from "primevue/useconfirm";
-import { usePaymentStore } from "../stores/income.store";
+import { useFeeStore, usePaymentStore } from "../stores/income.store";
 //import { rowClass } from "../utils/common";
 
 const traineeStore = useTraineeStore();
 const appUserStore = useAppUserStore();
 const paymentStore = usePaymentStore();
+const feeStore = useFeeStore();
 const toast = useToast();
 const confirm = useConfirm();
 
@@ -72,9 +76,12 @@ const createMode = ref(true);
 
 const { trainee } = storeToRefs(traineeStore);
 const { appUser } = storeToRefs(appUserStore);
+const { fees } = storeToRefs(feeStore);
+const { payments } = storeToRefs(paymentStore);
 
 onMounted(async () => {
   await traineeStore.fetchTrainees();
+  await feeStore.fetchFees();
 });
 
 const createButton = () => {
@@ -91,15 +98,6 @@ const createButton = () => {
   };
   visible.value = true;
 };
-
-/*const computedRowClass = computed(() => {
-  return traineeStore.trainees.map((trainee) => ({
-    "inactive-row": trainee.Active === false,
-  }));
-});
-const rowClass = (data: Trainee) => {
-  return [{ "inactive-row": data.Active === false }];
-};*/
 
 const submitForm = async () => {
   visible.value = false;
@@ -163,6 +161,7 @@ const cancelForm = () => {
 
 const editButton = async (event: any, trainee: Trainee) => {
   console.log(event);
+  paymentStore.getPaymentsByTraineeId(trainee.ID);
   createMode.value = false;
   traineeStore.setTrainee(trainee);
   await appUserStore.fetchAppUserById(trainee.UserID);
@@ -173,17 +172,20 @@ const editButton = async (event: any, trainee: Trainee) => {
 };
 
 const createPayment = async (event: any, trainee: Trainee) => {
+  await feeStore.getFee(trainee.FeeID);
+  let fee = feeStore.fee;
+
   let payment = {
     ID: getNewUuid(),
     CreatedOn: new Date(),
     PaymentTypeId: getNewUuid(),
     TraineeID: trainee.ID,
-    BaseAmount: 0,
-    Vat: 0,
-    VatPercentage: 0,
-    IncomeTax: 0,
-    IncomeTaxPercentage: 0,
-    TotalAmount: 0,
+    BaseAmount: fee.BaseAmount,
+    Vat: fee.Vat,
+    VatPercentage: fee.VatPercentage,
+    IncomeTax: fee.IncomeTax,
+    IncomeTaxPercentage: fee.IncomeTaxPercentage,
+    TotalAmount: fee.TotalAmount,
   } as Payment;
 
   confirm.require({
@@ -215,6 +217,7 @@ const createPayment = async (event: any, trainee: Trainee) => {
           life: 3000,
         });
       }
+      await traineeStore.fetchTrainees();
     },
   });
 };

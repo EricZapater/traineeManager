@@ -55,10 +55,19 @@ export const usePaymentStore = defineStore("payment", {
       let response = await paymentService.GetPayments();
       this.payments = response.data;
     },
-    /*async getPayments(id: string) {
-      this.payment = await paymentService.GetPayment(id);
+    async getPaymentsByTraineeId(id: string) {
+      let response = await paymentService.GetPaymentsByTraineeId(id);
+      this.payments = response.data;
     },
-    async updatePayment(payment: Payment) {
+    async getPaymentsBetweenDates(startTime: string, endTime: string) {
+      let response = await paymentService.GetPaymentsBetweenDates(
+        startTime,
+        endTime
+      );
+      this.payments = response.data;
+      return this.payments;
+    },
+    /*async updatePayment(payment: Payment) {
       let response = await paymentService.UpdatePayment(payment);
       return response;
     },*/

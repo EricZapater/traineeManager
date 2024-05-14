@@ -45,6 +45,14 @@ const menus: Menus = {
             router.push("/fees");
           },
         },
+        {
+          label: "menu.payments",
+          icon: "pi pi-fw pi-calendar",
+          to: "/",
+          command: () => {
+            router.push("/payments");
+          },
+        },
       ],
     },
     { label: "Settings", icon: "pi pi-fw pi-cog", to: "/settings" },
