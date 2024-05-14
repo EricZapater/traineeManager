@@ -1,5 +1,3 @@
-import { DateSchema } from "yup";
-
 export interface AppUser {
   ID: string;
   CreatedOn: Date;

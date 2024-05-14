@@ -140,7 +140,6 @@ const paymentStore = usePaymentStore();
 const { trainee } = storeToRefs(traineeStore);
 const { appUser } = storeToRefs(appUserStore);
 const { fees } = storeToRefs(feeStore);
-const { payments } = storeToRefs(paymentStore);
 
 const cancelForm = () => {
   emit("cancel");

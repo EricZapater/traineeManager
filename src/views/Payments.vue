@@ -44,9 +44,9 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, computed } from "vue";
+import { onMounted, ref } from "vue";
 import { usePaymentStore } from "../stores/income.store";
-import { formatDate, formatISO8601Date } from "../utils/common";
+import { formatISO8601Date } from "../utils/common";
 import { useToast } from "primevue/usetoast";
 import { Payment } from "../types";
 import { useTraineeStore } from "../stores/trainee.store";

@@ -25,7 +25,7 @@ export const formatISO8601Date = (date: Date) => {
   if (!date) return ""; // Devuelve cadena vacía si la fecha no es válida
 
   // Convierte la fecha a un string ISO 8601 (Ej: 2020-01-01T12:00:00.000Z)
-  const isoString = date.toISOString();
+  //const isoString = date.toISOString();
 
   // Extrae la fecha y la hora en formato local
   const localDate = new Date(date.getTime() - date.getTimezoneOffset() * 60000);

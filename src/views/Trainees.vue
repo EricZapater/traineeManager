@@ -52,7 +52,7 @@
   </Dialog>
 </template>
 <script setup lang="ts">
-import { onMounted, ref, computed } from "vue";
+import { onMounted, ref } from "vue";
 import { useTraineeStore } from "../stores/trainee.store";
 import FormTrainee from "../components/FormTrainee.vue";
 import { storeToRefs } from "pinia";
@@ -76,8 +76,6 @@ const createMode = ref(true);
 
 const { trainee } = storeToRefs(traineeStore);
 const { appUser } = storeToRefs(appUserStore);
-const { fees } = storeToRefs(feeStore);
-const { payments } = storeToRefs(paymentStore);
 
 onMounted(async () => {
   await traineeStore.fetchTrainees();
