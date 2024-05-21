@@ -7,6 +7,9 @@
   </section>
   <section class="table">
     <DataTable
+      v-model:filters="filters"
+      filterDisplay="row"
+      :globalFilteredFields="['Surname']"
       :value="traineeStore.trainees"
       showGridlines
       :table-style="{ minWidth: '50rem' }"
@@ -14,10 +17,23 @@
       :rows="10"
       :rowsPerPageOptions="[10, 20, 50]"
     >
-      <Column field="Name" header="name"></Column>
-      <Column field="Surname" header="surname"></Column>
+      <Column field="Name" header="name"> </Column>
+      <Column field="Surname" header="surname">
+        <template #body="{ data }">
+          {{ data.Surname }}
+        </template>
+        <template #filter="{ filterModel, filterCallback }">
+          <InputText
+            v-model="filterModel.value"
+            type="text"
+            @input="filterCallback()"
+            class="p-column-filter"
+            placeholder="Search by surname"
+          />
+        </template>
+      </Column>
       <Column field="Country" header="country"></Column>
-      <Column field="Phone Number" header="phone"></Column>
+      <Column field="Phone" header="phone number"></Column>
       <Column field="EMail" header="mail"></Column>
       <Column field="Active" header="active"></Column>
       <Column field="LastPayment" header="lastpayment"></Column>
@@ -62,6 +78,7 @@ import { useAppUserStore } from "../stores/user.store";
 import { useToast } from "primevue/usetoast";
 import { useConfirm } from "primevue/useconfirm";
 import { useFeeStore, usePaymentStore } from "../stores/income.store";
+import { FilterMatchMode } from "primevue/api";
 //import { rowClass } from "../utils/common";
 
 const traineeStore = useTraineeStore();
@@ -76,6 +93,11 @@ const createMode = ref(true);
 
 const { trainee } = storeToRefs(traineeStore);
 const { appUser } = storeToRefs(appUserStore);
+
+const filters = ref({
+  global: { value: null, matchMode: FilterMatchMode.CONTAINS },
+  Surname: { value: null, matchMode: FilterMatchMode.CONTAINS },
+});
 
 onMounted(async () => {
   await traineeStore.fetchTrainees();
