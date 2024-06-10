@@ -36,7 +36,11 @@ import { ref } from "vue";
 import { Trainee, PaymentsRequest } from "../types";
 import { useToast } from "primevue/usetoast";
 
-const trainees = ref<Trainee[]>([]);
+const { trainees } = defineProps<{
+  trainees: Trainee[];
+}>();
+
+//let trainees = ref<Trainee[]>([]);
 
 const selectedTrainees = ref<Trainee[]>([]);
 const paymentDate = ref<Date | null>(null);
