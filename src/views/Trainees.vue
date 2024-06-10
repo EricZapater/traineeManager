@@ -89,7 +89,6 @@ const toast = useToast();
 const confirm = useConfirm();
 
 const visible = ref(false);
-const paymentVisible = ref(false);
 const createMode = ref(true);
 
 const { trainee } = storeToRefs(traineeStore);

@@ -35,11 +35,8 @@
 import { ref } from "vue";
 import { Trainee, PaymentsRequest } from "../types";
 import { useToast } from "primevue/usetoast";
-import { formatISO8601Date } from "../utils/common";
 
-const props = defineProps<{
-  trainees: Trainee[];
-}>();
+const trainees = ref<Trainee[]>([]);
 
 const selectedTrainees = ref<Trainee[]>([]);
 const paymentDate = ref<Date | null>(null);

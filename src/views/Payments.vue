@@ -50,7 +50,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
 import { usePaymentStore } from "../stores/income.store";
-import { formatISO8601Date, formatDate } from "../utils/common";
+import { formatISO8601Date } from "../utils/common";
 import { useToast } from "primevue/usetoast";
 import { Payment, PaymentsRequest } from "../types";
 import { useTraineeStore } from "../stores/trainee.store";
