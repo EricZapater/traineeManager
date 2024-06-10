@@ -36,8 +36,8 @@
       <Column field="Phone" header="phone number"></Column>
       <Column field="EMail" header="mail"></Column>
       <Column field="Active" header="active"></Column>
-      <Column field="LastPayment" header="lastpayment"></Column>
-      <Column field="NextPayment" header="nextpayment"></Column>
+      <Column field="LastPayment" header="lastpayment" sortable></Column>
+      <Column field="NextPayment" header="nextpayment" sortable></Column>
       <Column>
         <template #body="slotProps">
           <Button
@@ -89,6 +89,7 @@ const toast = useToast();
 const confirm = useConfirm();
 
 const visible = ref(false);
+const paymentVisible = ref(false);
 const createMode = ref(true);
 
 const { trainee } = storeToRefs(traineeStore);

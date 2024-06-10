@@ -5,6 +5,7 @@
   },
   "menu": {
     "incomes": "Incomes",
-    "fees": "Fees"
+    "fees": "Fees",
+    "payments": "Payments"
   }
 }

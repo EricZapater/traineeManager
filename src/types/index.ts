@@ -71,6 +71,11 @@ export interface Payment {
   TotalAmount: number;
 }
 
+export interface PaymentsRequest {
+  Trainees: Trainee[];
+  Date: Date;
+}
+
 export interface MenuItems {
   label: string;
   icon: string;

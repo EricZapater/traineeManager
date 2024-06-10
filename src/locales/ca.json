@@ -5,6 +5,7 @@
   },
   "menu": {
     "incomes": "Ingressos",
-    "fees": "Quotes"
+    "fees": "Quotes",
+    "payments": "Pagos"
   }
 }

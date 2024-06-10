@@ -14,6 +14,12 @@ export class TraineeService<Trainee> {
     );
     return response.data;
   }
+  async GetTraineesWithOverdueFee(): Promise<any> {
+    const response: AxiosResponse<Array<Trainee>> = await api.get(
+      "/api/trainee/overduefee"
+    );
+    return response.data;
+  }
   async CreateTrainee(trainee: Trainee): Promise<any> {
     const response: AxiosResponse<any> = await api.post(
       "/api/trainee",

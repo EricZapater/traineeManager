@@ -10,6 +10,7 @@ export const useTraineeStore = defineStore("trainee", {
     trainee: {} as Trainee,
     trainees: [] as Trainee[],
     activeTrainees: [] as Trainee[],
+    overDueTrainees: [] as Trainee[],
   }),
   actions: {
     async fetchTrainees() {
@@ -19,6 +20,10 @@ export const useTraineeStore = defineStore("trainee", {
     async fetchActiveTrainees() {
       var response = await traineeService.GetActiveTrainees();
       this.activeTrainees = response.data;
+    },
+    async fetchTraineesWithOverdueFee() {
+      var response = await traineeService.GetTraineesWithOverdueFee();
+      this.overDueTrainees = response.data;
     },
     async createTrainee(trainee: Trainee) {
       var result = await traineeService.CreateTrainee(trainee);

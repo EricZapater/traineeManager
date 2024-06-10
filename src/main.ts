@@ -26,6 +26,7 @@ import Calendar from "primevue/calendar";
 import Textarea from "primevue/textarea";
 import TabView from "primevue/tabview";
 import TabPanel from "primevue/tabpanel";
+import SplitButton from "primevue/splitbutton";
 import { useAppUserStore } from "./stores/user.store";
 import ConfirmPopup from "primevue/confirmpopup";
 import ConfirmationService from "primevue/confirmationservice";
@@ -72,6 +73,7 @@ app.component("TabView", TabView);
 app.component("TabPanel", TabPanel);
 app.component("ConfirmPopup", ConfirmPopup);
 app.component("Dropdown", Dropdown);
+app.component("SplitButton", SplitButton);
 
 const appUserStore = useAppUserStore();
 appUserStore.initializeLoginState();

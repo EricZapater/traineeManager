@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { FeeService, PaymentService } from "../services/income.service";
-import { Fee, Payment } from "../types";
+import { Fee, Payment, PaymentsRequest } from "../types";
 
 const feeService = new FeeService<Fee>();
 const paymentService = new PaymentService<Payment>();
@@ -49,6 +49,10 @@ export const usePaymentStore = defineStore("payment", {
     },
     async createPayment(payment: Payment) {
       let result = await paymentService.CreatePayment(payment);
+      return result;
+    },
+    async createPayments(paymentsRequest: PaymentsRequest): Promise<Boolean> {
+      let result = await paymentService.CreatePayments(paymentsRequest);
       return result;
     },
     async fetchPayments() {

@@ -1,3 +1,4 @@
+import { PaymentsRequest } from "../types";
 import api from "../utils/axios";
 import { AxiosResponse } from "axios";
 
@@ -56,6 +57,17 @@ export class PaymentService<Payment> {
       return true;
     } else {
       return response;
+    }
+  }
+  async CreatePayments(paymentsRequest: PaymentsRequest): Promise<Boolean> {
+    const response: AxiosResponse<any> = await api.post(
+      "/api/payments",
+      paymentsRequest
+    );
+    if (response.status === 200 || response.status === 201) {
+      return true;
+    } else {
+      return false;
     }
   }
   async GetPayments(): Promise<any> {
